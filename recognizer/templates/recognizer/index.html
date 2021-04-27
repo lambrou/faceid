@@ -1,10 +1,20 @@
+{% load static %}
+
 FaceID
 <br />
-<img src="data:image/jpeg;charset=utf-8;base64,{{ img }}"></img>
-<form action="" method="post">
+{% if img %}
+    <img src="data:image/jpeg;charset=utf-8;base64,{{ img }}"></img>
+{% endif %}
+{% if img2 %}
+    <img src="{% static 'recognizer/known_images/img.jpg' %}"></img>
+{% endif %}
+<form action="" method="post" enctype="multipart/form-data">
 {% csrf_token %}
-    <input type="submit" name="img" value="Take Picture" />
+    <input type="file" name="file">
+
+    <input type="submit" name="img" value="Compare" />
 </form>
+
 <br />
 {% if match %}
     Match Found!

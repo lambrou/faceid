@@ -1,1 +1,13 @@
 FaceID
+<br />
+<img src="data:image/jpeg;charset=utf-8;base64,{{ img }}"></img>
+<form action="" method="post">
+{% csrf_token %}
+    <input type="submit" name="img" value="Take Picture" />
+</form>
+<br />
+{% if match %}
+    Match Found!
+{% else %}
+    No match found.
+{% endif %}

@@ -122,3 +122,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+COMPARISON_THRESHOLD = 0.6
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PREDICTOR_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\bin\\shape_predictor_5_face_landmarks.dat'
+
+FACE_REC_MODEL_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\bin\\dlib_face_recognition_resnet_model_v1.dat'
+
+FACES_FOLDER_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\known_images\\'
+
+UNKNOWN_FACES_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\unknown_images\\'

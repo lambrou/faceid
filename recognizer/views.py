@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, StreamingHttpResponse
 from django.conf.urls.static import static
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 import cv2
 import base64
@@ -11,19 +12,8 @@ import time
 import os
 import os.path
 
-COMPARISON_THRESHOLD = 0.6
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PREDICTOR_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\bin\\shape_predictor_5_face_landmarks.dat'
-FACE_REC_MODEL_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\bin\\dlib_face_recognition_resnet_model_v1.dat'
-FACES_FOLDER_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\known_images\\'
-UNKNOWN_FACES_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\unknown_images\\'
-os.makedirs(UNKNOWN_FACES_PATH, exist_ok=True)
-os.makedirs(FACES_FOLDER_PATH, exist_ok=True)
-
-detector = dlib.get_frontal_face_detector()
-sp = dlib.shape_predictor(PREDICTOR_PATH)
-facerec = dlib.face_recognition_model_v1(FACE_REC_MODEL_PATH)
+os.makedirs(settings.UNKNOWN_FACES_PATH, exist_ok=True)
+os.makedirs(settings.FACES_FOLDER_PATH, exist_ok=True)
 
 # Create camera class
 class Camera(object):
@@ -64,6 +54,10 @@ def get_euc_dist(known, unknown):
     return dist
 
 def get_face_desc(image):
+    detector = dlib.get_frontal_face_detector()
+    sp = dlib.shape_predictor(settings.PREDICTOR_PATH)
+    facerec = dlib.face_recognition_model_v1(settings.FACE_REC_MODEL_PATH)
+
     img = dlib.load_rgb_image(image)
 
 
@@ -90,12 +84,12 @@ def index(request):
   
             if request.FILES['file']:
                 try:
-                    os.remove(FACES_FOLDER_PATH + 'img.jpg')
+                    os.remove(settings.FACES_FOLDER_PATH + 'img.jpg')
                 except OSError:
                     pass
                 file = request.FILES['file']
                 fs = FileSystemStorage()
-                filename = fs.save(FACES_FOLDER_PATH + 'img.jpg', file)
+                filename = fs.save(settings.FACES_FOLDER_PATH + 'img.jpg', file)
         
         if 'img' in request.POST:
             img2 = False
@@ -103,19 +97,19 @@ def index(request):
             camObj = Camera()
             img = capture(camObj)
             
-            temp = cv2.imwrite(UNKNOWN_FACES_PATH + 'temp.jpg', img[1])
+            temp = cv2.imwrite(settings.UNKNOWN_FACES_PATH + 'temp.jpg', img[1])
 
             b64 = base64.b64encode(img[0])
             img_str = b64.decode('ascii')
 
 
-            known = get_face_desc(FACES_FOLDER_PATH + 'img.jpg')
-            unknown = get_face_desc(UNKNOWN_FACES_PATH + 'temp.jpg')
-            if os.path.isfile(UNKNOWN_FACES_PATH + 'temp.jpg'):
+            known = get_face_desc(settings.FACES_FOLDER_PATH + 'img.jpg')
+            unknown = get_face_desc(settings.UNKNOWN_FACES_PATH + 'temp.jpg')
+            if os.path.isfile(settings.UNKNOWN_FACES_PATH + 'temp.jpg'):
                 img2 = True 
             if unknown and known:
                 distance = get_euc_dist(known, unknown)
-                if distance < COMPARISON_THRESHOLD:
+                if distance < settings.COMPARISON_THRESHOLD:
                     match = True
      
 

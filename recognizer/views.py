@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse, StreamingHttpResponse
-from django.conf.urls.static import static
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 

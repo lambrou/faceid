@@ -123,6 +123,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = 'media/recognizer/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'recognizer/media/recognizer/')
+
 COMPARISON_THRESHOLD = 0.6
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,6 +135,6 @@ PREDICTOR_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\bin\\shape_predic
 
 FACE_REC_MODEL_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\bin\\dlib_face_recognition_resnet_model_v1.dat'
 
-FACES_FOLDER_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\known_images\\'
+FACES_FOLDER_PATH = BASE_DIR + '\\recognizer\\media\\recognizer\\known_images\\'
 
-UNKNOWN_FACES_PATH = BASE_DIR + '\\recognizer\\static\\recognizer\\unknown_images\\'
+UNKNOWN_FACES_PATH = BASE_DIR + '\\recognizer\\media\\recognizer\\unknown_images\\'

@@ -6,7 +6,7 @@ FaceID
     <img src="data:image/jpeg;charset=utf-8;base64,{{ img }}"></img>
 {% endif %}
 {% if img2 %}
-    <img src="{% static 'recognizer/known_images/img.jpg' %}"></img>
+    <img src="{% get_media_prefix %}known_images/img.jpg"></img>
 {% endif %}
 <form action="" method="post" enctype="multipart/form-data">
 {% csrf_token %}

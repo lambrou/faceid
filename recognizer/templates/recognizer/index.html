@@ -1,23 +1,33 @@
+{% extends "recognizer/base.html" %}
 {% load static %}
+{% block content %}
+<div class="row">
 
-FaceID
-<br />
-{% if img %}
-    <img src="data:image/jpeg;charset=utf-8;base64,{{ img }}"></img>
-{% endif %}
-{% if img2 %}
-    <img src="{% get_media_prefix %}known_images/img.jpg"></img>
-{% endif %}
-<form action="" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-    <input type="file" name="file">
+    <div class="col-md-6">
+        {% if img %}
+        <img style="max-width: 300px; max-height: 300px;" src="data:image/jpeg;charset=utf-8;base64,{{ img }}"></img>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        {% if img2 %}
+        <img style="max-width: 300px; max-height: 300px;" src="{% get_media_prefix %}known_images/img.jpg"></img>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file">
 
-    <input type="submit" name="img" value="Compare" />
-</form>
-
-<br />
-{% if match %}
-    Match Found!
-{% else %}
-    No match found.
-{% endif %}
+            <input type="submit" name="img" value="Compare" />
+        </form>
+    </div>
+</div>
+    <br />
+    {% if match %}
+        Match Found!
+    {% else %}
+        No match found.
+    {% endif %}
+    {% endblock content %}
